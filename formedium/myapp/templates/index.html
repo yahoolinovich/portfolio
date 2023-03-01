@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Split Screen</title>
+      {% load static %}
+      <link href="{% static 'normalize.css' %}" rel="stylesheet">
+      <link href="{% static 'style.css' %}" rel="stylesheet">
+
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+      <div class="wrapper">
+
+            <div class="side left">
+                  <div class="image rnd"></div>
+                  <div class="caption">
+                        <h1>3D Portfolio</h1>
+                        <a class="button" href="3d"> View 3D Projects </a>
+                  </div>
+            </div>
+
+            <div class="side right">
+                  <div class="image dev"></div>
+                  <div class="caption">
+                        <h1>Developer Projects</h1>
+                        <a class="button" href="developer-portfolio"> View Projects </a>
+                  </div>
+            </div>
+      </div>
+
+      
+</body>
+</html>

@@ -1,0 +1,299 @@
+<html lang="en">
+<title>3D Portfolio</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+
+body {
+    background: rgb(0, 0, 0);
+    margin: 0;
+    padding: 0;
+}
+div.gallery {
+    margin: 20px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+.collection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: rgb(0, 0, 0);
+  margin-top: 50px;
+  padding-bottom: 50px;
+}
+
+.halo-text {
+  text-align: center;
+  margin: 20px;
+  color: white;
+  /* font-family: SF Pro Text,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif; */
+}
+
+.gallery-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  margin: 10px;
+  max-width: 65%;
+}
+
+div.gallery2 {
+    margin: 10px;
+}
+
+div.gallery2 img {
+    width: 100%;
+    height: auto;
+}
+
+.collection2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: rgb(0, 0, 0);
+}
+
+.render-text {
+  text-align: center;
+  margin: 0px;
+  color: white;
+  /* font-family: SF Pro Text,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif; */
+}
+
+.gallery-container2{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0) 50%, rgb(0, 0, 0) 70%);
+}
+
+
+.video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* .explain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  color: white
+} */
+
+
+/* .website-link {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: inline-block;
+  padding: 8px 15px;
+  outline: 1px solid rgb(255, 255, 255);
+  min-width: 28px;
+  border-radius: 980px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.website-link a{
+  text-decoration: none;
+  font-size: 20;
+  font-family: SF Pro Text,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;;
+  color: white;
+}
+.website-link:hover {
+  background-color: #ffffff21;
+} */
+
+
+header{
+    position:relative;
+    width: 100%;
+}
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+li {
+  float: left;
+}
+
+/* Add a gray right border to all list items, except the last item (last-child) */
+
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+
+</style>
+
+
+<body>
+
+<header>
+    <nav>
+    <ul>
+        <li><a href="{% url 'index'%}"><i class="fa fa-home fa-lg"></i></a></li>
+
+        <li style="float:right"><a class="active" href="{% url 'dev'%}"><i class="fa fa-user fa-lg"></i></a></li>
+    </ul>
+    </nav>
+</header>
+
+<div class="video-container">
+  <!-- <div class="explain">A showcase of some of my 3D work for Carbon Technology.</div> -->
+  <!-- <div class="website-link" id="my-div" > <a href="https://carbontechinc.com/">Visit Carbon Website</a></div> -->
+    <video class="video" playsinline autoplay muted>
+        <source src="static/videos/short2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+      
+
+<div class="collection">
+  <div class="halo-text">
+    <h1>Project Halo</h1>
+    <h2 style="font-weight: normal;">3D visualization, product rendering and animations in various interiors. These images and animations were used in the company <a href="https://carbontechinc.com/">website</a> alongside promotional material for the product.</h2>
+  </div>
+
+  <div class="gallery-container">
+    <div class="gallery">
+        <a target="_blank" href="static/images/Fan kitchen shot.png">
+        <img src="static/images/Fan kitchen shot.png" alt="Project Halo">
+        </a>
+    </div>
+
+    <div class="gallery">
+        <a target="_blank" href="static/images/Scene Fan 3_00000.jpg">
+        <img src="static/images/Scene Fan 3_00000.jpg" alt="Renders">
+        </a>
+    </div>
+  </div>
+  <div class="gallery">
+    <a target="_blank" href="static/images/Fannerman Room 1 red.jpg">
+    <img src="static/images/Fannerman Room 1 red.jpg" alt="Renders">
+    </a>
+  </div>
+  <div class="gallery">
+    <a target="_blank" href="static/images/New fan room 2022.jpg">
+    <img src="static/images/New fan room 2022.jpg" alt="Renders">
+    </a>
+  </div>
+
+</div>
+
+<div class="collection2">
+  <div class="render-text">
+    <h1>Other renders</h1>
+  </div>
+
+  <div class="gallery-container2">
+    <div class="gallery2">
+        <a target="_blank" href="static/images/Medieval Castle 2_00000.jpg">
+        <img src="static/images/Medieval Castle 2_00000.jpg" alt="Medieval Castle">
+        </a>
+    </div>
+
+    <div class="gallery2">
+        <a target="_blank" href="static/images/Bathroom.jpg">
+        <img src="static/images/Bathroom.jpg" alt="Interior Bathroom">
+        </a>
+    </div>
+  </div>
+</div>
+
+</body>
+<script type="text/javascript">
+//     setTimeout(function(){
+// document.getElementById('my-div').style.visibility = "visible";
+// },10000);
+
+    const videoContainer = document.querySelector('.video-container');
+    const video = document.querySelector('.video');
+    
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+    video.addEventListener("timeupdate", function () {
+    console.log('checking time...');
+    if (video.currentTime > video.duration - 0.5) {
+        // 0.5 is seconds before end.
+        video.pause();
+    }
+});
+    
+    observer.observe(videoContainer);
+</script>
+</html>

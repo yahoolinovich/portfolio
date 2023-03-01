@@ -1,0 +1,365 @@
+<html>
+<title>Developer Portfolio</title>
+<form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}" id="form" style="display:none;">
+    {% csrf_token %}
+    <input type="file" name="file" id="file">
+</form>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript">
+    var canvas,ctx;
+
+    var mouseX,mouseY,mouseDown=0;
+
+    var touchX,touchY;
+
+    var lastX,lastY=-1;
+
+
+    function drawLine(ctx,x,y,size) {
+
+        if (lastX==-1) {
+            lastX=x;
+        lastY=y;
+        }
+
+        r=0; g=0; b=0; a=255;
+
+        ctx.strokeStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
+
+        ctx.lineCap = "round";
+
+
+        ctx.beginPath();
+
+    ctx.moveTo(lastX,lastY);
+
+    ctx.lineTo(x,y);
+
+        ctx.lineWidth = size;
+        ctx.stroke();
+
+        ctx.closePath();
+
+    lastX=x;
+    lastY=y;
+    } 
+
+    function saveCanvas(canvas, ctx) {
+    // Resize the canvas to 28x28
+    var resizedCanvas = document.createElement("canvas");
+    resizedCanvas.width = 28;
+    resizedCanvas.height = 28;
+    var resizedCtx = resizedCanvas.getContext("2d");
+    resizedCtx.drawImage(canvas, 0, 0, 28, 28);
+
+    // Get the data URI of the resized canvas image
+    var dataURL = resizedCanvas.toDataURL('image/png', 1);
+    // Convert the dataURL to a binary file
+    var base64 = dataURL.split(',')[1];
+    var binary = atob(base64);
+    var array = [];
+    for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    var file = new File([new Uint8Array(array)], 'image.png', {type: 'image/png'});
+    var formData = new FormData();
+    formData.append('file', file);
+
+    // Send the binary file to the server
+    fetch("{% url 'upload' %}", {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+    }
+}).then(response => {
+    // Handle the server's response
+    return response.json();
+}).then(data => {
+    // Display the result on the HTML page
+    document.getElementById('result').innerHTML = data.result;
+}).catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+});
+
+
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+
+
+    function sketchpad_mouseDown() {
+        mouseDown=1;
+        drawLine(ctx,mouseX,mouseY,35);
+    }
+
+    function sketchpad_mouseUp() {
+        mouseDown=0;
+
+        lastX=-1;
+        lastY=-1;
+    }
+
+    function sketchpad_mouseMove(e) { 
+        getMousePos(e);
+
+        if (mouseDown==1) {
+            drawLine(ctx,mouseX,mouseY,35);
+        }
+    }
+
+    function getMousePos(e) {
+        if (!e)
+            var e = event;
+
+        if (e.offsetX) {
+            mouseX = e.offsetX;
+            mouseY = e.offsetY;
+        }
+        else if (e.layerX) {
+            mouseX = e.layerX;
+            mouseY = e.layerY;
+        }
+     }
+
+    function sketchpad_touchStart() {
+        getTouchPos();
+
+        drawLine(ctx,touchX,touchY,35);
+
+        event.preventDefault();
+    }
+
+    function sketchpad_touchEnd() {
+        lastX=-1;
+        lastY=-1;
+    }
+
+    function sketchpad_touchMove(e) { 
+        getTouchPos(e);
+
+        drawLine(ctx,touchX,touchY,35); 
+
+        event.preventDefault();
+    }
+
+
+    function getTouchPos(e) {
+        if (!e)
+            var e = event;
+
+        if(e.touches) {
+            if (e.touches.length == 1) { 
+                var touch = e.touches[0]; 
+                touchX=touch.pageX-touch.target.offsetLeft;
+                touchY=touch.pageY-touch.target.offsetTop;
+            }
+        }
+    }
+
+
+    function init() {
+        canvas = document.getElementById('sketchpad');
+
+        if (canvas.getContext)
+            ctx = canvas.getContext('2d');
+
+
+        if (ctx) {
+            canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+            canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+            window.addEventListener('mouseup', sketchpad_mouseUp, false);
+
+            canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+            canvas.addEventListener('touchend', sketchpad_touchEnd, false);
+            canvas.addEventListener('touchmove', sketchpad_touchMove, false);
+        }
+    }
+</script>
+
+<style>
+    *, *::before, *::after {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+background:rgb(255, 255, 255);
+}
+
+header{
+    position:relative;
+    width: 100%;
+    margin:0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.result-text {
+    font-size: 40px;
+    font-family: Georgia, serif;
+    text-align: center;
+}
+
+li {
+  float: left;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+#sketchpadapp {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {
+    text-align: center;
+    font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-size: 40px;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: 0em;
+}
+
+.containerman{
+    /* background-color: rgb(39, 39, 39); */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.leftside {
+    width:400px;
+    height:600px;
+    background-color:rgb(206, 225, 243);
+    padding:10px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.rightside {
+    width:600px;
+    height:600px;
+    margin-left: 0px;
+
+}
+
+.page2 {
+    /* background-color: rgb(39,39,39); */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.leftside2 {
+    width:400px;
+    height:600px;
+    background-color:rgb(210, 210, 210);
+    padding:10px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.video {
+    position: relative;
+    width: 600px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#sketchpad {
+    height:600px;
+    width:600px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border:1px solid #888;
+
+
+    position:relative; 
+}
+
+#submitbutton {
+    font-size: 15px;
+    padding: 10px;
+    -webkit-appearance: none;
+    background: rgb(255, 255, 255);
+    border: 1px solid #888;
+    transition: background 0.2s;
+}
+
+#submitbutton:hover{
+    background: #bdeaff;
+}
+
+</style>
+
+
+<body onload="init()">
+    <header>
+    <nav>
+    <ul>
+        <li><a href="{% url 'index'%}"><i class="fa fa-home fa-lg"></i></a></li>
+
+        <li style="float:right"><a class="active" href="{% url 'dev'%}"><i class="fa fa-user fa-lg"></i></a></li>
+      </ul>
+    </nav>
+    </header>
+    <h1>Custom Neural Network</h1>
+    <div class="containerman">
+        <div class="leftside">
+            Draw a number from 0-9 onto the canvas to be analyzed by the Neural Network.<br/><br/>
+            <input type="submit" value="Analyze Image" id="submitbutton" onclick="saveCanvas(canvas,ctx);">
+            <br/><br/> This Neural Network is made in Python without the use of any external libraries. There are two hidden layers and it's trained using 1000 images of handwritten numbers. The code can be found <a href="https://github.com/yahoolinovich/custom_nn_MNIST">here</a>. <br/><br/>The purpose of this project was to gain a deeper understanding of Neural Networks; how forward propagation works and how back propagation allows the network to correct itself using an activation function, and the overall process of converting input layers to hidden layers and eventually to output layers using matrices.  
+            <br/><br/>The output will be written below: <br/><br/> <br/><br/>
+            <div class="result-text" id="result">{{result}}</div>
+        
+        </div>
+        <div id="sketchpadapp">
+                <div class="rightside">
+                    <canvas id="sketchpad" height="600" width="600">
+                    </canvas>
+                </div>
+        </div>
+    </div>
+    <h1>3D Projection Engine</h1>
+    <div class="page2">
+        <div class="leftside2">
+            A 3D projection engine entirely made with Pygame and Numpy. <br/><br/>This required an understanding of linear algebra along with how to project a 3d object onto the screen. The purpose of this experimental project was to learn perspective projection and the math behind it.<br/><br/> This application can take in .obj files, read them, and output them onto the screen as well as allow the user to move around the 3d object with mouse and keyboard inputs.<br/><br/>The project files can be found <a href="https://github.com/yahoolinovich/3dengine">here</a>.  <br/><br/>I plan on building on this project in the future by implementing shading and textures and perhaps even a mini game.
+        </div>
+
+        <video class="video" playsinline autoplay muted loop>
+            <source src="static/videos/3d engine examples.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+
+    </div>
+</body>
+</html>
