@@ -1,5 +1,7 @@
 <html lang="en">
 <title>3D Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
@@ -17,6 +19,7 @@ div.gallery {
 
 div.gallery:hover {
     border: 1px solid #777;
+    transition: 0.2s;
 }
 
 div.gallery img {
@@ -28,8 +31,6 @@ div.gallery img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  height: auto;
   background-color: rgb(0, 0, 0);
   margin-top: 50px;
   padding-bottom: 50px;
@@ -43,11 +44,9 @@ div.gallery img {
 }
 
 .gallery-container{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
   gap: 10px;
   margin: 10px;
-  max-width: 65%;
 }
 
 div.gallery2 {
@@ -115,46 +114,72 @@ div.gallery2 img {
   width: 100%;
   height: 100%;
 }
-/* .explain {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  display: inline-block;
-  text-align: center;
-  font-size: 16px;
-  color: white
-} */
 
 
-/* .website-link {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  display: inline-block;
-  padding: 8px 15px;
-  outline: 1px solid rgb(255, 255, 255);
-  min-width: 28px;
-  border-radius: 980px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
 }
-.website-link a{
-  text-decoration: none;
-  font-size: 20;
-  font-family: SF Pro Text,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;;
-  color: white;
-}
-.website-link:hover {
-  background-color: #ffffff21;
-} */
 
+
+#exit {
+      position: absolute;
+      top:0;
+      right:1%;
+      cursor: pointer;
+      font-size: 44px;
+      color: #1f1f1f;
+}
+
+#exit:hover i {
+      transition: 0.2s;
+      color: #3d3d3d;
+}
+
+
+#about {
+    position: fixed;
+    display: none;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    align-items: center;
+    background-color: rgb(206, 225, 243);
+    border-radius:10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#about-left,
+#about-mid,
+#about-right {
+  width: 90%;
+}
+
+#about-mid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#about-mid img {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  border-radius: 10%; /* Make the image round */
+  object-fit: cover; /* Scale the image to cover the circle */
+}
 
 header{
     position:relative;
@@ -172,7 +197,6 @@ li {
   float: left;
 }
 
-/* Add a gray right border to all list items, except the last item (last-child) */
 
 
 li:last-child {
@@ -187,12 +211,30 @@ li a {
   text-decoration: none;
 }
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
   background-color: #111;
+  transition: 0.2s;
 }
 
+@media (min-width: 768px) {
+      #about {
+        max-width: 30%;
+      }
+    }
 
+@media (min-width: 768px) {
+      #about {
+        flex-direction: column;
+      }
+
+    }
+
+@media (min-width: 768px) {
+  #exit {
+    font-size: 30px;
+  }
+
+}
 </style>
 
 
@@ -203,7 +245,7 @@ li a:hover {
     <ul>
         <li><a href="{% url 'index'%}"><i class="fa fa-home fa-lg"></i></a></li>
 
-        <li style="float:right"><a class="active" href="{% url 'dev'%}"><i class="fa fa-user fa-lg"></i></a></li>
+        <li style="float:right"><a class="active" target="#" onclick="openOverlay()" style="cursor:pointer;"><i class="fa fa-user fa-lg"></i></a></li>
     </ul>
     </nav>
 </header>
@@ -216,7 +258,24 @@ li a:hover {
         Your browser does not support the video tag.
     </video>
 </div>
-      
+
+<div id="overlay">
+  <div id="about">
+    <div id="exit">
+      <a target="#" onclick="closeOverlay()"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+      <div id="about-left">
+          <h1>About me</h1>
+          I'm a recent graduate of Ryerson University (TMU), I'm interested in Software Development, Machine Learning, Web Development, and Computer Graphics. On this page you will find some of my 3D work that I've done for companies as well as personal projects. These projects were made with the use of Blender, Cinema 4D, and Octane Renderer. <br/><br/>
+      </div>
+      <div id="about-mid"><img src="static/images/Bathroom.jpg" alt="About me"></div>
+      <div id="about-right"><h1>Contact</h1>Email: <a href="mailto:michael.nahmias@torontomu.ca">michael.nahmias@torontomu.ca</a>
+          <br/>Phone #: 647 705 6769<br/><br/> <a href="https://github.com/yahoolinovich" target="_blank"><i class="fa fa-github" aria-hidden="true" style="font-size: 44px; color: #333;"></i></a>
+          <!--<a href="https://linkedin.com" target="_blank"><i class="fa fa-linkedin" style="font-size: 30px; color: #333; padding: 20px;"></i></a>-->
+    </div>
+  </div>
+
+</div>
 
 <div class="collection">
   <div class="halo-text">
@@ -272,13 +331,20 @@ li a:hover {
 
 </body>
 <script type="text/javascript">
-//     setTimeout(function(){
-// document.getElementById('my-div').style.visibility = "visible";
-// },10000);
 
+    function openOverlay() {
+        var overlay = document.getElementById("overlay").style.display="flex";
+        var overlay = document.getElementById("about").style.display="flex";
+
+    }
+
+    function closeOverlay() {
+        var overlay = document.getElementById("overlay").style.display="none";
+        var overlay = document.getElementById("about").style.display="none";
+    }
     const videoContainer = document.querySelector('.video-container');
     const video = document.querySelector('.video');
-    
+
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         video.play();
@@ -293,7 +359,7 @@ li a:hover {
         video.pause();
     }
 });
-    
+
     observer.observe(videoContainer);
 </script>
 </html>
