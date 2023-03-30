@@ -1,5 +1,8 @@
-<html>
+<html lang="en">
+<script src="https://kit.fontawesome.com/8fc667caf5.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
 <title>Developer Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}" id="form" style="display:none;">
     {% csrf_token %}
     <input type="file" name="file" id="file">
@@ -42,7 +45,7 @@
 
     lastX=x;
     lastY=y;
-    } 
+    }
 
     function saveCanvas(canvas, ctx) {
     // Resize the canvas to 28x28
@@ -103,7 +106,7 @@
         lastY=-1;
     }
 
-    function sketchpad_mouseMove(e) { 
+    function sketchpad_mouseMove(e) {
         getMousePos(e);
 
         if (mouseDown==1) {
@@ -138,10 +141,10 @@
         lastY=-1;
     }
 
-    function sketchpad_touchMove(e) { 
+    function sketchpad_touchMove(e) {
         getTouchPos(e);
 
-        drawLine(ctx,touchX,touchY,35); 
+        drawLine(ctx,touchX,touchY,35);
 
         event.preventDefault();
     }
@@ -152,8 +155,8 @@
             var e = event;
 
         if(e.touches) {
-            if (e.touches.length == 1) { 
-                var touch = e.touches[0]; 
+            if (e.touches.length == 1) {
+                var touch = e.touches[0];
                 touchX=touch.pageX-touch.target.offsetLeft;
                 touchY=touch.pageY-touch.target.offsetTop;
             }
@@ -178,6 +181,7 @@
             canvas.addEventListener('touchmove', sketchpad_touchMove, false);
         }
     }
+
 </script>
 
 <style>
@@ -187,6 +191,7 @@ box-sizing: border-box;
 
 body {
 margin: 0;
+padding: 0;
 background:rgb(255, 255, 255);
 }
 
@@ -194,11 +199,13 @@ header{
     position:relative;
     width: 100%;
     margin:0;
+    padding:0;
 }
 
 ul {
   list-style-type: none;
   padding: 0px;
+  margin:0;
   overflow: hidden;
   background-color: #333;
 }
@@ -227,6 +234,7 @@ li a {
 
 li a:hover {
   background-color: #111;
+  transition: 0.2s;
 }
 
 #sketchpadapp {
@@ -247,27 +255,98 @@ h1 {
     letter-spacing: 0em;
 }
 
+
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+#exit {
+      position: absolute;
+      top:0;
+      right:1%;
+      cursor: pointer;
+      font-size: 44px;
+      color: #1f1f1f;
+}
+
+#exit:hover i {
+      transition: 0.2s;
+      color: #3d3d3d;
+}
+
+#about {
+    position: fixed;
+    display: none;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    align-items: center;
+    background-color: rgb(206, 225, 243);
+    border-radius:10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+}
+
+#about-left,
+#about-mid,
+#about-right {
+  width: 90%;
+}
+
+#about-mid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#about-mid img {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  border-radius: 10%; /* Make the image round */
+  object-fit: cover; /* Scale the image to cover the circle */
+}
+
+
+
+
 .containerman{
     /* background-color: rgb(39, 39, 39); */
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .leftside {
-    width:400px;
-    height:600px;
-    background-color:rgb(206, 225, 243);
-    padding:10px;
-    border-top-left-radius:10px;
-    border-bottom-left-radius:10px;
+  flex: 1 0 100%; /* take up full width on small screens */
+  max-width: 400px; /* prevent overflow */
+  height: auto; /* adjust height automatically */
+  background-color: rgb(206, 225, 243);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .rightside {
-    width:600px;
-    height:600px;
-    margin-left: 0px;
-
+  flex: 1 0 100%; /* take up full width on small screens */
+  max-width: 100%; /* prevent overflow */
+  height: auto; /* adjust height automatically */
 }
 
 .page2 {
@@ -275,37 +354,36 @@ h1 {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    margin-bottom: 100px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
 
 .leftside2 {
-    width:400px;
-    height:600px;
+    flex: 1 0 100%;
+    max-width:400px;
+    height:auto;
     background-color:rgb(210, 210, 210);
     padding:10px;
-    border-top-left-radius:10px;
-    border-bottom-left-radius:10px;
+    border-radius: 10px;
 }
 
 .video {
     position: relative;
-    width: 600px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    width: 400px;
+    height: auto;
+    border-radius: 10px;
 }
 
 #sketchpad {
-    height:600px;
-    width:600px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
-    border:1px solid #888;
-
-
-    position:relative; 
+  height: 400px; /* adjust height for small screens */
+  width: 100%; /* take up full width on small screens */
+  border-radius: 10px;
+  border: 1px solid #888;
+  position: relative;
 }
 
 #submitbutton {
+    color:black;
     font-size: 15px;
     padding: 10px;
     -webkit-appearance: none;
@@ -318,8 +396,99 @@ h1 {
     background: #bdeaff;
 }
 
-</style>
+@media (min-width: 900px) {
+    .containerman{
+    /* background-color: rgb(39, 39, 39); */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: nowrap;
+}
 
+.leftside {
+    flex: auto;
+    max-width:400px;
+    height:600px;
+    background-color:rgb(206, 225, 243);
+    padding:10px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.rightside {
+    width:600px;
+    height:600px;
+    margin-left: 0px;
+
+}
+#sketchpad {
+    width:600px;
+    height: 600px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border:1px solid #888;
+
+
+    position:relative;
+}
+
+.page2 {
+    /* background-color: rgb(39,39,39); */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    flex-wrap: nowrap;
+}
+
+.leftside2 {
+    flex:auto;
+    max-width:400px;
+    height:600px;
+    background-color:rgb(210, 210, 210);
+    padding:10px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+}
+
+.video {
+    position: relative;
+    width: 600px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+
+
+    }
+
+    @media (min-width: 768px) {
+      #about {
+        max-width: 30%;
+      }
+    }
+
+@media (min-width: 768px) {
+      #about {
+        flex-direction: column;
+      }
+
+    }
+
+@media (min-width: 768px) {
+  #exit {
+    font-size: 30px;
+  }
+}
+</style>
 
 <body onload="init()">
     <header>
@@ -327,19 +496,40 @@ h1 {
     <ul>
         <li><a href="{% url 'index'%}"><i class="fa fa-home fa-lg"></i></a></li>
 
-        <li style="float:right"><a class="active" href="{% url 'dev'%}"><i class="fa fa-user fa-lg"></i></a></li>
+        <li style="float:right"><a class="active"target="#" onclick="openOverlay()" style="cursor:pointer;"><i class="fa fa-user fa-lg"></i></a></li>
       </ul>
     </nav>
     </header>
+
+
+    <div id="overlay">
+        <div id="about">
+          <div id="exit">
+            <a target="#" onclick="closeOverlay()"><i class="fa fa-times" aria-hidden="true"></i></a>
+          </div>
+            <div id="about-left">
+                <h1>About me</h1>
+                I'm a recent graduate of Ryerson University (TMU), I'm interested in Software Development, Machine Learning, Web Development, and Computer Graphics. On this page, you will find some experimental personal projects made in Python. These are the languages and frameworks I'm proficient with: <br/><br/> <iconify-icon icon="logos:python" width="50" height="50"></iconify-icon> <iconify-icon icon="logos:html-5" width="50" height="50"></iconify-icon> <iconify-icon icon="logos:css-3" width="50" height="50"></iconify-icon> <iconify-icon icon="simple-icons:django" style="color: rgb(41, 71, 56);" width="50" height="50"></iconify-icon><br/><br/>
+            </div>
+            <div id="about-mid"><img src="static/images/Bathroom.jpg" alt="About me"></div>
+            <div id="about-right"><h1>Contact</h1>Email: <a href="mailto:michael.nahmias@torontomu.ca">michael.nahmias@torontomu.ca</a>
+                <br/>Phone #: 647 705 6769<br/><br/> <a href="https://github.com/yahoolinovich" target="_blank"><i class="fa fa-github" aria-hidden="true" style="font-size: 44px; color: #333;"></i></a>
+                <a href="https://linkedin.com" target="_blank"><i class="fa fa-linkedin" style="font-size: 30px; color: #333; padding: 20px;"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+
     <h1>Custom Neural Network</h1>
     <div class="containerman">
         <div class="leftside">
             Draw a number from 0-9 onto the canvas to be analyzed by the Neural Network.<br/><br/>
             <input type="submit" value="Analyze Image" id="submitbutton" onclick="saveCanvas(canvas,ctx);">
-            <br/><br/> This Neural Network is made in Python without the use of any external libraries. There are two hidden layers and it's trained using 1000 images of handwritten numbers. The code can be found <a href="https://github.com/yahoolinovich/custom_nn_MNIST">here</a>. <br/><br/>The purpose of this project was to gain a deeper understanding of Neural Networks; how forward propagation works and how back propagation allows the network to correct itself using an activation function, and the overall process of converting input layers to hidden layers and eventually to output layers using matrices.  
+            <br/><br/> This Neural Network is made in Python without the use of any external libraries. There are two hidden layers and it's trained using 1000 images of handwritten numbers. The code can be found <a href="https://github.com/yahoolinovich/custom_nn_MNIST" target="_blank">here</a>. <br/><br/>The purpose of this project was to gain a deeper understanding of Neural Networks; how forward propagation works and how back propagation allows the network to correct itself using an activation function, and the overall process of converting input layers to hidden layers and eventually to output layers using matrices.
             <br/><br/>The output will be written below: <br/><br/> <br/><br/>
             <div class="result-text" id="result">{{result}}</div>
-        
+
         </div>
         <div id="sketchpadapp">
                 <div class="rightside">
@@ -351,15 +541,37 @@ h1 {
     <h1>3D Projection Engine</h1>
     <div class="page2">
         <div class="leftside2">
-            A 3D projection engine entirely made with Pygame and Numpy. <br/><br/>This required an understanding of linear algebra along with how to project a 3d object onto the screen. The purpose of this experimental project was to learn perspective projection and the math behind it.<br/><br/> This application can take in .obj files, read them, and output them onto the screen as well as allow the user to move around the 3d object with mouse and keyboard inputs.<br/><br/>The project files can be found <a href="https://github.com/yahoolinovich/3dengine">here</a>.  <br/><br/>I plan on building on this project in the future by implementing shading and textures and perhaps even a mini game.
+            A 3D projection engine entirely made with Pygame and Numpy. <br/><br/>This required an understanding of linear algebra along with how to project a 3d object onto the screen. The purpose of this experimental project was to learn perspective projection and the math behind it.<br/><br/> This application can take in .obj files, read them, and output them onto the screen as well as allow the user to move around the 3d object with mouse and keyboard inputs.<br/><br/>The project files can be found <a href="https://github.com/yahoolinovich/3dengine" target="_blank">here</a>.  <br/><br/>I plan on building on this project in the future by implementing shading and textures and perhaps even a mini game.
         </div>
 
         <video class="video" playsinline autoplay muted loop>
             <source src="static/videos/3d engine examples.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        
+
 
     </div>
 </body>
+<script>
+
+function openOverlay() {
+        var overlay = document.getElementById("overlay").style.display="flex";
+        var overlay = document.getElementById("about").style.display="flex";
+
+    }
+
+    function closeOverlay() {
+        var overlay = document.getElementById("overlay").style.display="none";
+        var overlay = document.getElementById("about").style.display="none";
+    }
+
+
+// Get the sketchpad and canvas elements
+    const sketcher = document.querySelector('.rightside');
+    const cvs = document.querySelector('#sketchpad');
+
+    // Set the canvas dimensions to match the sketchpad dimensions
+    cvs.width = sketcher.offsetWidth;
+    cvs.height = sketcher.offsetHeight;
+    </script>
 </html>
