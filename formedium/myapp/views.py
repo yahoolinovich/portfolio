@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import ImageForm
-import imageio.v2 as imageio
+import imageio
 import numpy as np
 import os
 from django.http import JsonResponse
+from django.conf import settings
 
+views_dir = os.path.dirname(os.path.abspath(__file__))
 
-syn_weights = np.loadtxt('Custom_syn_weights.txt')
-syn_weights1 = np.loadtxt('Custom_syn_weights1.txt')
+file_path = os.path.join(views_dir, 'Custom_syn_weights.txt')
+file_path1 = os.path.join(views_dir, 'Custom_syn_weights1.txt')
+syn_weights = np.loadtxt(file_path)
+syn_weights1 = np.loadtxt(file_path1)
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -17,15 +21,15 @@ def dev(request):
     return render(request, 'dev.html')
 
 def renders(request):
-    return render(request, '3d.html') 
+    return render(request, '3d.html')
 
 def upload_image(request):
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            result = test_img('myapp/media/images/image.png')
-            os.remove(r'C:\Users\User\Downloads\split_template\Portfolio\djangerman\formedium\myapp\media\images\image.png')
+            image = form.save()
+            image_path = os.path.join(settings.MEDIA_ROOT, image.file.name)
+            result = test_img(image_path)
             return JsonResponse({'result': result})
         else:
             print(form.errors)
