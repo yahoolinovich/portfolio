@@ -3,10 +3,11 @@
 <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Split Screen</title>
+      <title>Portfolio - Michael Nahmias</title>
       {% load static %}
       <link href="{% static 'normalize.css' %}" rel="stylesheet">
       <link href="{% static 'style.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
       <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
@@ -20,11 +21,17 @@
             <div class="side left">
                   <div class="image rnd"></div>
                   <div class="caption">
-                        <h1>3D Portfolio</h1>
+                        <h1>3D Projects</h1>
                         <a class="button" href="3d"> View 3D Projects </a>
                   </div>
             </div>
 
+            <div class="center">
+                <a target="#" onclick="openOverlay()">
+                    <img src="static/images/Bathroom.jpg" alt="About me">
+                </a>
+            </div>
+            
             <div class="side right">
                   <div class="image dev"></div>
                   <div class="caption">
@@ -32,8 +39,41 @@
                         <a class="button" href="developer-portfolio"> View Projects </a>
                   </div>
             </div>
+
+
+
+            <div id="overlay">
+                <div id="about">
+                  <div id="exit"> 
+                    <a target="#" onclick="closeOverlay()"><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </div>
+                    <div id="about-left">
+                        <h1>About me</h1>
+                        I'm a recent graduate of Ryerson University (TMU), I'm interested in Software Development, Machine Learning, Web Development, and Computer Graphics. Welcome to my portfolio. You'll find some of my work in Software Development and 3D Graphics here.<br/><br/>
+                    </div>
+                    <div id="about-mid"><img src="static/images/Bathroom.jpg" alt="About me"></div>
+                    <div id="about-right"><h1>Contact</h1>Email: <a href="mailto:michael.nahmias@torontomu.ca">michael.nahmias@torontomu.ca</a>  
+                        <br/>Phone #: 647 705 6769<br/><br/> <a href="https://github.com/yahoolinovich" target="_blank"><i class="fa fa-github" aria-hidden="true" style="font-size: 44px; color: #333;"></i></a>
+                        <a href="https://linkedin.com" target="_blank"><i class="fa fa-linkedin" style="font-size: 30px; color: #333; padding: 20px;"></i></a>
+                  </div>
+                </div>
+
+            </div>
       </div>
 
-      
+
 </body>
+<script>
+    function openOverlay() {
+        var overlay = document.getElementById("overlay").style.display="flex";
+        var overlay = document.getElementById("about").style.display="flex";
+
+    }
+
+    function closeOverlay() {
+        var overlay = document.getElementById("overlay").style.display="none";
+        var overlay = document.getElementById("about").style.display="none";
+    }
+
+</script>
 </html>
